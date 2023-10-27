@@ -1,34 +1,65 @@
 /*
-  3326 - BEM style string
+  110 - Capitalize
   -------
-  by Songhn (@songhn233) #medium #template-literal #union #tuple
+  by Anthony Fu (@antfu) #medium #template-literal
 
   ### Question
 
-  The Block, Element, Modifier methodology (BEM) is a popular naming convention for classes in CSS.
+  Implement `Capitalize<T>` which converts the first letter of a string to uppercase and leave the rest as-is.
 
-  For example, the block component would be represented as `btn`, element that depends upon the block would be represented as `btn__price`, modifier that changes the style of the block would be represented as `btn--big` or `btn__price--warning`.
+  For example
 
-  Implement `BEM<B, E, M>` which generate string union from these three parameters. Where `B` is a string literal, `E` and `M` are string arrays (can be empty).
+  ```ts
+  type capitalized = Capitalize<'hello world'> // expected to be 'Hello world'
+  ```
 
-  > View on GitHub: https://tsch.js.org/3326
+  > View on GitHub: https://tsch.js.org/110
 */
 
 /* _____________ Your Code Here _____________ */
-type BEM<B extends string, E extends string[], M extends string[]> = E['length'] extends 0 ? `${B}--${M[number]}` : M['length'] extends 0 ? `${B}__${E[number]}` : `${B}__${E[number]}--${M[number]}`
+
+type MyCapitalize<S extends string> = S extends `${infer first}${infer last}` ? `${Uppercase<first>}${last}` : '';
+type a = MyCapitalize<'eee'>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
 
 type cases = [
-    Expect<Equal<BEM<'btn', ['price'], []>, 'btn__price'>>,
-    Expect<Equal<BEM<'btn', ['price'], ['warning', 'success']>, 'btn__price--warning' | 'btn__price--success'>>,
-    Expect<Equal<BEM<'btn', [], ['small', 'medium', 'large']>, 'btn--small' | 'btn--medium' | 'btn--large'>>,
+    Expect<Equal<MyCapitalize<'foobar'>, 'Foobar'>>,
+    Expect<Equal<MyCapitalize<'FOOBAR'>, 'FOOBAR'>>,
+    Expect<Equal<MyCapitalize<'foo bar'>, 'Foo bar'>>,
+    Expect<Equal<MyCapitalize<''>, ''>>,
+    Expect<Equal<MyCapitalize<'a'>, 'A'>>,
+    Expect<Equal<MyCapitalize<'b'>, 'B'>>,
+    Expect<Equal<MyCapitalize<'c'>, 'C'>>,
+    Expect<Equal<MyCapitalize<'d'>, 'D'>>,
+    Expect<Equal<MyCapitalize<'e'>, 'E'>>,
+    Expect<Equal<MyCapitalize<'f'>, 'F'>>,
+    Expect<Equal<MyCapitalize<'g'>, 'G'>>,
+    Expect<Equal<MyCapitalize<'h'>, 'H'>>,
+    Expect<Equal<MyCapitalize<'i'>, 'I'>>,
+    Expect<Equal<MyCapitalize<'j'>, 'J'>>,
+    Expect<Equal<MyCapitalize<'k'>, 'K'>>,
+    Expect<Equal<MyCapitalize<'l'>, 'L'>>,
+    Expect<Equal<MyCapitalize<'m'>, 'M'>>,
+    Expect<Equal<MyCapitalize<'n'>, 'N'>>,
+    Expect<Equal<MyCapitalize<'o'>, 'O'>>,
+    Expect<Equal<MyCapitalize<'p'>, 'P'>>,
+    Expect<Equal<MyCapitalize<'q'>, 'Q'>>,
+    Expect<Equal<MyCapitalize<'r'>, 'R'>>,
+    Expect<Equal<MyCapitalize<'s'>, 'S'>>,
+    Expect<Equal<MyCapitalize<'t'>, 'T'>>,
+    Expect<Equal<MyCapitalize<'u'>, 'U'>>,
+    Expect<Equal<MyCapitalize<'v'>, 'V'>>,
+    Expect<Equal<MyCapitalize<'w'>, 'W'>>,
+    Expect<Equal<MyCapitalize<'x'>, 'X'>>,
+    Expect<Equal<MyCapitalize<'y'>, 'Y'>>,
+    Expect<Equal<MyCapitalize<'z'>, 'Z'>>,
 ]
 
 /* _____________ Further Steps _____________ */
 /*
-  > Share your solutions: https://tsch.js.org/3326/answer
-  > View solutions: https://tsch.js.org/3326/solutions
+  > Share your solutions: https://tsch.js.org/110/answer
+  > View solutions: https://tsch.js.org/110/solutions
   > More Challenges: https://tsch.js.org
 */

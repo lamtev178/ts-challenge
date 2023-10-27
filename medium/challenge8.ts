@@ -1,42 +1,52 @@
 /*
-  27958 - CheckRepeatedTuple
+  645 - Diff
   -------
-  by bowen (@jiaowoxiaobala) #medium
+  by ZYSzys (@ZYSzys) #medium #object
 
   ### Question
 
-  Implement type `CheckRepeatedChars<T>` which will return whether type `T` contains duplicated member
+  Get an `Object` that is the difference between `O` & `O1`
 
-  For example:
-
-  ```ts
-  type CheckRepeatedTuple<[1, 2, 3]>   // false
-  type CheckRepeatedTuple<[1, 2, 1]>   // true
-  ```
-
-  > View on GitHub: https://tsch.js.org/27958
+  > View on GitHub: https://tsch.js.org/645
 */
 
 /* _____________ Your Code Here _____________ */
 
-type CheckRepeatedTuple<T extends unknown[]> = T extends [infer first, ...infer last] ? first extends last[number] ? true : CheckRepeatedTuple<last> : false
-
+type Diff<O, O1> = {
+  [key in keyof O | keyof O1 as Exclude<
+    key,
+    keyof O & keyof O1
+  >]: key extends keyof O ? O[key] : key extends keyof O1 ? O1[key] : never;
+};
 /* _____________ Test Cases _____________ */
-import type { Equal, Expect } from '@type-challenges/utils'
-import { ExpectFalse, NotEqual } from '@type-challenges/utils'
+import type { Equal, Expect } from "@type-challenges/utils";
+
+type Foo = {
+  name: string;
+  age: string;
+};
+
+type Bar = {
+  name: string;
+  age: string;
+  gender: number;
+};
+type Coo = {
+  name: string;
+  gender: number;
+};
+type a = Diff<Foo, Bar>;
 
 type cases = [
-    Expect<Equal<CheckRepeatedTuple<[number, number, string, boolean]>, true>>,
-    Expect<Equal<CheckRepeatedTuple<[number, string]>, false>>,
-    Expect<Equal<CheckRepeatedTuple<[1, 2, 3]>, false>>,
-    Expect<Equal<CheckRepeatedTuple<[1, 2, 1]>, true>>,
-    Expect<Equal<CheckRepeatedTuple<[]>, false>>,
-    Expect<Equal<CheckRepeatedTuple<string[]>, false>>,
-]
+  Expect<Equal<Diff<Foo, Bar>, { gender: number }>>,
+  Expect<Equal<Diff<Bar, Foo>, { gender: number }>>,
+  Expect<Equal<Diff<Foo, Coo>, { age: string; gender: number }>>,
+  Expect<Equal<Diff<Coo, Foo>, { age: string; gender: number }>>
+];
 
 /* _____________ Further Steps _____________ */
 /*
-  > Share your solutions: https://tsch.js.org/27958/answer
-  > View solutions: https://tsch.js.org/27958/solutions
+  > Share your solutions: https://tsch.js.org/645/answer
+  > View solutions: https://tsch.js.org/645/solutions
   > More Challenges: https://tsch.js.org
 */
